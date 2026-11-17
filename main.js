@@ -170,6 +170,7 @@ $('.burger').addEventListener('click', () => hdr.classList.toggle('menu'));
 $$('.hdr-nav a').forEach(a => a.addEventListener('click', () => hdr.classList.remove('menu')));
 
 /* ---------- SCROLL ---------- */
+const mailF = $('.mail-float');
 const darks = [$('.hero'), $('.pillars'), $('.excl'), $('.presence'), $('.foot')], pres = $('.presence'), presImg = $('.pres-img');
 const hero = $('.hero'), heroIn = $('.hero-in');
 function onScroll() {
@@ -178,6 +179,8 @@ function onScroll() {
   heroIn.style.pointerEvents = p > .55 ? 'auto' : 'none';
   const y = 50, dark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; });
   hdr.classList.toggle('solid', !dark);
+  const my = innerHeight - 50, mDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= my && b.bottom > my; });
+  mailF.classList.toggle('on-dark', mDark);
   const r = pres.getBoundingClientRect();
   if (r.bottom > 0 && r.top < innerHeight) presImg.style.setProperty('--py', ((r.top / innerHeight) * 60).toFixed(1) + 'px');
   $$('.hdr-nav a').forEach(a => { const s = $(a.getAttribute('href')); if (!s) return; const b = s.getBoundingClientRect(); a.classList.toggle('act', b.top <= innerHeight * .4 && b.bottom > innerHeight * .4); });
