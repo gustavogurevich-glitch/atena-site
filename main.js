@@ -143,13 +143,13 @@ const EN = {
   ct_text: 'Book a private conversation with one of our partners. We will reply personally.',
   ct_or: 'or write to', mail_tip: 'Write to Atena', scroll: 'Scroll',
   f1: 'Governance, condominium law and legal certainty.', f2t: 'Hospitality & client relations', f2: 'The resident experience, from onboarding to community life.', f3t: 'Facilities & services', f3: 'Flawless operations and services to luxury standards.',
-  e_eye: 'Private service', e_title: 'One building.<br>One partner.<br>One direct line.',
-  e_lead: 'No oversized portfolio, no outsourced service. Every property has a lead partner who knows the building in detail and answers for it personally.',
+  e_eye: 'Exclusivity', e_title: 'Every address<br>with its own signature.',
+  e_lead: 'No two buildings are alike, and no two should be managed alike. Every property has a lead partner who knows it in detail and answers for it personally.',
   e1t: 'A dedicated lead partner', e1: 'Decisions are made by someone who knows your building, not by an intermediary.',
   e2t: 'Curated services', e2: 'Wellness, dining and convenience designed for the common areas, to hotel standards.',
   e3t: 'Community life', e3: 'Gatherings, events and integration so that neighbours become a community.',
   e4t: 'Absolute discretion', e4: 'Residents\' privacy and a reserved handling of every request.',
-  e_card: 'Private service', e_tit: 'Lead partner', e_line: 'Direct line', e_hint: 'Every building, a unique service.'
+  e_card: 'Signature management', e_cardsub: 'Your building', e_tit: 'Lead partner', e_line: 'Direct line', e_hint: 'One lead partner for every building.'
 };
 const PT = {};
 $$('[data-i18n]').forEach(e => { PT[e.dataset.i18n] ??= e.innerHTML; });
@@ -174,7 +174,7 @@ const darks = [$('.hero'), $('.pillars'), $('.excl'), $('.presence'), $('.foot')
 const hero = $('.hero'), heroIn = $('.hero-in');
 function onScroll() {
   const hr = hero.getBoundingClientRect(), p = Math.min(1, Math.max(0, -hr.top / (hr.height - innerHeight)));
-  hero.style.setProperty('--p', p.toFixed(4)); hero.style.setProperty('--io', Math.min(1, Math.max(0, (p - .12) * 2.6)).toFixed(3));
+  hero.style.setProperty('--p', p.toFixed(4)); hero.style.setProperty('--io', Math.min(1, Math.max(0, (p - .05) * 2.4)).toFixed(3));
   heroIn.style.pointerEvents = p > .55 ? 'auto' : 'none';
   const y = 50, dark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; });
   hdr.classList.toggle('solid', !dark);
@@ -186,7 +186,8 @@ let tick = false;
 addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(() => { onScroll(); tick = false; }); } }, { passive: true });
 addEventListener('resize', onScroll);
 
-/* ---------- CARTÃO PRIVÉ ---------- */
+/* ---------- CARTÃO ---------- */
+
 const card = $('#exCard'), names = ['Cristina Reis Marques', 'Helena Ferraz de Carvalho', 'Mary Lorena Gurevich'], exName = $('#exName'); let ni = 0;
 setInterval(() => { exName.style.opacity = 0; setTimeout(() => { ni = (ni + 1) % 3; exName.textContent = names[ni]; exName.style.opacity = 1; }, 500); }, 3200);
 card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
