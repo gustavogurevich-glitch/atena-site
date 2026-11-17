@@ -173,12 +173,15 @@ $$('.hdr-nav a').forEach(a => a.addEventListener('click', () => hdr.classList.re
 const mailF = $('.mail-float');
 const darks = [$('.hero'), $('.pillars'), $('.excl'), $('.presence'), $('.foot')], pres = $('.presence'), presImg = $('.pres-img');
 const hero = $('.hero'), heroIn = $('.hero-in');
+const prog = $('#prog');
 function onScroll() {
+  prog.style.transform = `scaleX(${Math.min(1, scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)).toFixed(4)})`;
   const hr = hero.getBoundingClientRect(), p = Math.min(1, Math.max(0, -hr.top / (hr.height - innerHeight)));
   hero.style.setProperty('--p', p.toFixed(4)); hero.style.setProperty('--io', Math.min(1, Math.max(0, (p - .05) * 2.4)).toFixed(3));
   heroIn.style.pointerEvents = p > .55 ? 'auto' : 'none';
   const y = 50, dark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; });
   hdr.classList.toggle('solid', !dark);
+  hdr.classList.toggle('dark', dark && scrollY > hero.offsetHeight - innerHeight * .2);
   const my = innerHeight - 50, mDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= my && b.bottom > my; });
   mailF.classList.toggle('on-dark', mDark);
   const r = pres.getBoundingClientRect();
@@ -196,6 +199,10 @@ setInterval(() => { exName.style.opacity = 0; setTimeout(() => { ni = (ni + 1) %
 card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
   card.style.setProperty('--ry', ((x - .5) * 22).toFixed(1) + 'deg'); card.style.setProperty('--rx', ((.5 - y) * 16).toFixed(1) + 'deg');
   card.style.setProperty('--mx', (x * 100).toFixed(0) + '%'); card.style.setProperty('--my', (y * 100).toFixed(0) + '%'); });
+card.addEventListener('touchmove', e => { const t = e.touches[0], r = card.getBoundingClientRect(), x = (t.clientX - r.left) / r.width, y = (t.clientY - r.top) / r.height;
+  card.style.setProperty('--ry', ((x - .5) * 22).toFixed(1) + 'deg'); card.style.setProperty('--rx', ((.5 - y) * 16).toFixed(1) + 'deg');
+  card.style.setProperty('--mx', (x * 100).toFixed(0) + '%'); card.style.setProperty('--my', (y * 100).toFixed(0) + '%'); }, { passive: true });
+card.addEventListener('touchend', () => { card.style.setProperty('--rx', '6deg'); card.style.setProperty('--ry', '-10deg'); });
 card.addEventListener('mouseleave', () => { card.style.setProperty('--rx', '6deg'); card.style.setProperty('--ry', '-10deg'); });
 
 /* ---------- REVEAL ---------- */
