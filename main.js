@@ -69,9 +69,31 @@ const SC = [
     i: { pt: ['Valorização da propriedade', 'Sustentabilidade e certificações', 'Compliance e governança condominial', 'Contratos, documentação e assembleias', 'Prestação de contas periódica e transparente', 'Seguro de responsabilidade civil profissional de R$ 1 milhão'],
          en: ['Enhancement of the property', 'Sustainability and certifications', 'Compliance and condominium governance', 'Contracts, documentation and meetings', 'Regular, transparent reporting', 'R$ 1 million professional civil liability insurance'] } },
 ];
+const CON = [
+  { t: { pt: 'Estratégia e Governança', en: 'Strategy & Governance' }, l: { pt: 'Direção clara para proprietários e conselhos.', en: 'Clear direction for owners and boards.' },
+    i: { pt: ['Diagnóstico organizacional', 'Planejamento estratégico', 'Modelos de gestão', 'Governança', 'Assessoria a proprietários e conselhos'],
+         en: ['Organisational diagnosis', 'Strategic planning', 'Management models', 'Governance', 'Advisory to owners and boards'] } },
+  { t: { pt: 'Eficiência Operacional', en: 'Operational Efficiency' }, l: { pt: 'Menos custo, mais desempenho.', en: 'Lower cost, higher performance.' },
+    i: { pt: ['Revisão de processos', 'Avaliação de contratos e prestadores', 'Concorrências', 'Indicadores de desempenho', 'Otimização de recursos'],
+         en: ['Process review', 'Assessment of contracts and providers', 'Tenders', 'Performance indicators', 'Resource optimisation'] } },
+  { t: { pt: 'Valorização Patrimonial', en: 'Asset Enhancement' }, l: { pt: 'Patrimônio protegido e valorizado.', en: 'An asset protected and enhanced.' },
+    i: { pt: ['Planejamento de melhorias', 'Análise de riscos', 'Conformidade', 'Sustentabilidade', 'Estratégias de valorização dos empreendimentos'],
+         en: ['Improvement planning', 'Risk analysis', 'Compliance', 'Sustainability', 'Strategies to enhance property value'] } },
+];
+let scOpen = null;
 function renderScope() {
-  $('#scGrid').innerHTML = SC.map((s, k) => `<article class="sc reveal in"><span class="rn">${['I', 'II', 'III'][k]}</span><h3>${T(s.t)}</h3><p class="sc-lead">${T(s.l)}</p><ul>${T(s.i).map(x => `<li>${x}</li>`).join('')}</ul></article>`).join('');
+  const list = scOpen === 'con' ? CON : SC;
+  $('#panelQuote').textContent = scOpen === 'con' ? (lang === 'pt' ? 'Diagnosticamos a operação, corrigimos o que não funciona e protegemos o valor do patrimônio.' : 'We diagnose the operation, fix what does not work and protect the value of the asset.') : '';
+  $('#scGrid').innerHTML = list.map((s, k) => `<article class="sc"><span class="rn">${['I', 'II', 'III'][k]}</span><h3>${T(s.t)}</h3><p class="sc-lead">${T(s.l)}</p><ul>${T(s.i).map(x => `<li>${x}</li>`).join('')}</ul></article>`).join('');
 }
+$$('.case').forEach(cs => cs.addEventListener('click', () => {
+  const k = cs.dataset.k, panel = $('#casePanel');
+  scOpen = scOpen === k ? null : k;
+  $$('.case').forEach(x => { const on = x.dataset.k === scOpen; x.classList.toggle('open', on); x.querySelector('.case-btn').setAttribute('aria-expanded', on); });
+  if (scOpen) renderScope();
+  panel.classList.toggle('open', !!scOpen);
+  if (scOpen) setTimeout(() => scrollTo({ top: panel.getBoundingClientRect().top + scrollY - 110, behavior: 'smooth' }), 350);
+}));
 
 /* ---------- PORTFÓLIO ---------- */
 const PF = { corp: ['Corporativo', 'Corporate'], med: ['Condomínio médico', 'Medical condominium'], res: ['Residencial', 'Residential'], hot: ['Hotelaria', 'Hospitality'], mis: ['Misto', 'Mixed'], mul: ['Multiuso', 'Mixed-use'], com: ['Comercial', 'Commercial'], log: ['Logístico', 'Logistics'] };
@@ -136,6 +158,8 @@ const EN = {
   x2t: 'Active listening', x2: 'Every request is heard, recorded and answered by the person who decides.',
   x3t: '24/7 readiness', x3: 'A defined emergency plan and a partner available at any hour.',
   x4t: 'Clear governance', x4: 'Defined responsibilities between manager, administrator and board.',
+  cs1t: 'Services', cs1s: 'Professional property management · from onboarding to asset value', cs2t: 'Consulting', cs2s: 'Diagnosis, strategy and management for owners and boards', cs_open: 'Open the scope', cs_close: 'Close the scope',
+  cs1t: 'Services', cs1s: 'Professional property management · from onboarding to asset value', cs2t: 'Consulting', cs2s: 'Diagnosis, strategy and management for owners and boards', cs_open: 'Open the scope', cs_close: 'Close the scope',
   sc_eye: 'Scope', sc_title: 'From day one to the years ahead.',
   sc_legal: 'Professional property management under art. 1,347 et seq. of the Brazilian Civil Code, Law 4,591/64 and the Condominium Bylaws.',
   pf_eye: 'Portfolio', pf_title: 'Addresses under our care.',
